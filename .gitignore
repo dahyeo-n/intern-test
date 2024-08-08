@@ -1,12 +1,14 @@
 # Dependency directories
 node_modules/
+*.local
 
 # Environment files
 .env
-.env.local
+.env.*.local
 .env.development.local
 .env.test.local
 .env.production.local
+VITE_*
 
 # Production build files
 dist/
