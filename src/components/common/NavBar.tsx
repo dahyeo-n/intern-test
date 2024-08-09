@@ -1,8 +1,9 @@
-import useAuth from '../../hooks/useAuth';
+import React from 'react';
 import ButtonLink from '../ButtonLink';
+import useAuthStore from '../../zustand/useAuthStore';
 
 const NavBar: React.FC = () => {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout } = useAuthStore();
   const buttonClassNames =
     'text-blue-400 font-semibold px-4 py-2 hover:bg-slate-50 rounded';
 
