@@ -37,7 +37,9 @@ export const api = {
     accessToken: string
   ) => {
     const formData = new FormData();
-    formData.append('avatar', data.avatar!);
+    if (data.avatar) {
+      formData.append('avatar', data.avatar);
+    }
     formData.append('nickname', data.nickname);
     return axiosInstance.patch('/profile', formData, {
       headers: { Authorization: `Bearer ${accessToken}` },
