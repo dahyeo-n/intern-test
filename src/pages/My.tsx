@@ -1,37 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/axios';
+import useAuthStore from '../zustand/useAuthStore';
 
 const My: React.FC = () => {
   const [nickname, setNickname] = useState('');
   const [avatar, setAvatar] = useState<File | null>(null);
   const [avatarURL, setAvatarURL] = useState('');
 
-  const accessToken = localStorage.getItem('accessToken') || '';
+  const accessToken = useAuthStore((state) => state.accessToken);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await api.fetchProfile(accessToken);
-        setNickname(response.data.nickname);
-        if (response.data.avatar) {
-          setAvatar(response.data.avater);
-          setAvatarURL(response.data.avatar);
+        if (accessToken) {
+          const response = await api.fetchProfile(accessToken);
+          setNickname(response.data.nickname);
+          if (response.data.avatar) {
+            setAvatarURL(response.data.avatar);
+          }
         }
-        console.log(response.data);
       } catch (error) {
-        console.log('프로필 가져오는 과정에서 에러 발생');
+        console.error('프로필 가져오는 과정에서 에러 발생');
       }
     };
     fetchProfile();
   }, [accessToken]);
 
-  const handleUpdate = async () => {
+  const updateProfile = async () => {
     try {
-      const response = await api.updateProfile(
-        { avatar, nickname },
-        accessToken
-      );
-      alert(response.data.message);
+      if (accessToken) {
+        const response = await api.updateProfile(
+          { avatar, nickname },
+          accessToken
+        );
+        alert(response.data.message);
+      }
     } catch (error) {
       alert('프로필 변경에 실패하였습니다.');
     }
@@ -67,7 +70,7 @@ const My: React.FC = () => {
         />
       </div>
       <button
-        onClick={handleUpdate}
+        onClick={updateProfile}
         className='bg-blue-500 text-white px-4 py-2 mt-2 rounded'
       >
         프로필 변경하기
