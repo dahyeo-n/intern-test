@@ -1,12 +1,21 @@
 import { Link, useNavigate } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 
 const NavBar: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem('accessToken');
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    navigate('/');
+    try {
+      localStorage.removeItem('accessToken');
+      navigate('/');
+
+      // 고의로 에러 발생시킴
+      throw new Error('Sentry 테스트 에러: 로그아웃 후 에러 발생');
+    } catch (error) {
+      // Sentry에 에러 보고
+      Sentry.captureException(error);
+    }
   };
 
   return (
