@@ -16,7 +16,7 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className='p-4'>
+    <div className='px-10'>
       <div className='mb-3'>
         <label className='block font-medium'>닉네임</label>
         <input

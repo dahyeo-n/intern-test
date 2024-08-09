@@ -18,8 +18,8 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div className='p-4'>
-      <div className='mb-3'>
+    <div className='px-10'>
+      <div className='mb-6'>
         <label className='block font-medium'>이메일</label>
         <input
           type='text'
