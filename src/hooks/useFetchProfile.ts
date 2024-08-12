@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import useAuthStore from '../store/useAuthStore';
 import { userSignAndProfileApi } from '../api/axios';
+import queryKeys from '../queryKeys';
 
 interface ProfileData {
   nickname: string;
@@ -15,7 +16,7 @@ const useFetchProfile = () => {
     isLoading,
     isError,
   } = useQuery<ProfileData>({
-    queryKey: ['profile', accessToken],
+    queryKey: [queryKeys.profile, accessToken],
     queryFn: () =>
       userSignAndProfileApi.fetchProfile(accessToken!).then((res) => res.data),
     enabled: !!accessToken, // accessToken이 있을 때만 쿼리 실행
