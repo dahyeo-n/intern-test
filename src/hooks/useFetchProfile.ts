@@ -1,0 +1,27 @@
+import { useQuery } from '@tanstack/react-query';
+import useAuthStore from '../store/useAuthStore';
+import { userSignAndProfileApi } from '../api/axios';
+
+interface ProfileData {
+  nickname: string;
+  avatar?: string;
+}
+
+const useFetchProfile = () => {
+  const accessToken = useAuthStore((state) => state.accessToken);
+
+  const {
+    data: profileData,
+    isLoading,
+    isError,
+  } = useQuery<ProfileData>({
+    queryKey: ['profile', accessToken],
+    queryFn: () =>
+      userSignAndProfileApi.fetchProfile(accessToken!).then((res) => res.data),
+    enabled: !!accessToken, // accessToken이 있을 때만 쿼리 실행
+  });
+
+  return { profileData, isLoading, isError };
+};
+
+export default useFetchProfile;
