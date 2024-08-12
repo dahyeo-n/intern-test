@@ -1,6 +1,6 @@
 import React from 'react';
 import ButtonLink from '../ButtonLink';
-import useAuthStore from '../../zustand/useAuthStore';
+import useAuthStore from '../../store/useAuthStore';
 
 const NavBar: React.FC = () => {
   const { isLoggedIn, logout } = useAuthStore();

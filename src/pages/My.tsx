@@ -1,39 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { api, useUpdateProfileMutation } from '../api/axios';
-import useAuthStore from '../zustand/useAuthStore';
-
-interface ProfileData {
-  nickname: string;
-  avatar?: string;
-}
+import useAuthStore from '../store/useAuthStore';
+import { useUpdateProfileMutation } from '../hooks/useUpdateProfileMutation';
+import useFetchProfile from '../hooks/useFetchProfile';
 
 const My: React.FC = () => {
-  const accessToken = useAuthStore((state) => state.accessToken);
-
-  const { data, isLoading, isError } = useQuery<ProfileData>({
-    queryKey: ['profile', accessToken],
-    queryFn: () => api.fetchProfile(accessToken!).then((res) => res.data),
-    enabled: !!accessToken, // accessToken이 있을 때만 쿼리 실행
-  });
-
   const [nickname, setNickname] = useState('');
   const [avatar, setAvatar] = useState<File | null>(null);
 
-  useEffect(() => {
-    if (data) {
-      setNickname(data.nickname);
-      setAvatar(null); // 기존 아바타는 서버의 URL을 사용하므로 초기화
-    }
-  }, [data]);
-
-  const { mutate, isError: isMutationError } = useUpdateProfileMutation(
-    accessToken!
-  );
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const { profileData, isLoading, isError } = useFetchProfile();
+  const { mutate: profileMutate, isError: isProfileMutationError } =
+    useUpdateProfileMutation(accessToken!);
 
   const handleUpdate = () => {
-    mutate({ avatar, nickname });
+    profileMutate({ avatar, nickname });
   };
+
+  useEffect(() => {
+    if (profileData) {
+      setNickname(profileData.nickname);
+      setAvatar(null); // 기존 아바타는 서버의 URL을 사용하므로 초기화
+    }
+  }, [profileData]);
 
   if (isLoading) return <div>로딩 중...</div>;
   if (isError) return <div>프로필 로딩 에러</div>;
@@ -51,9 +39,9 @@ const My: React.FC = () => {
       </div>
       <div className='mb-3'>
         <label className='block font-medium'>프로필 사진</label>
-        {data?.avatar && (
+        {profileData?.avatar && (
           <img
-            src={data.avatar}
+            src={profileData.avatar}
             className='mt-4 w-24 h-24 object-cover'
             alt='avatar'
           />
@@ -73,7 +61,7 @@ const My: React.FC = () => {
       >
         프로필 변경하기
       </button>
-      {isMutationError && <div>프로필 업데이트 에러</div>}
+      {isProfileMutationError && <div>프로필 업데이트 에러</div>}
     </div>
   );
 };

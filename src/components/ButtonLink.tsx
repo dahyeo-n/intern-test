@@ -1,9 +1,6 @@
 import React from 'react';
-import { Link, LinkProps } from 'react-router-dom';
-
-interface ButtonLinkProps extends LinkProps {
-  className?: string;
-}
+import { Link } from 'react-router-dom';
+import { ButtonLinkProps } from '../types';
 
 const ButtonLink: React.FC<ButtonLinkProps> = ({
   className = '',

@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import useAuthStore from '../store/useAuthStore';
+
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import My from '../pages/My';
 import NavBar from '../components/common/NavBar';
 import TodosComponent from '../components/TodosComponent';
-import useAuthStore from '../zustand/useAuthStore';
 
 const Router = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);

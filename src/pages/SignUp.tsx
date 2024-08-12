@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
-import { api } from '../api/axios';
+import { useHandleRegister } from '../hooks/useHandleRegister';
 
 const SignUp: React.FC = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
-
-  const handleRegister = async () => {
-    try {
-      const response = await api.register({ id, password, nickname });
-      alert(response.data.message);
-    } catch (error) {
-      alert('회원가입에 실패하였습니다.');
-    }
-  };
 
   return (
     <div className='px-10'>
@@ -46,7 +37,7 @@ const SignUp: React.FC = () => {
       </div>
 
       <button
-        onClick={handleRegister}
+        onClick={() => useHandleRegister({ id, password, nickname })}
         className='bg-blue-500 text-white px-4 py-2 mt-2 rounded'
       >
         회원가입하기

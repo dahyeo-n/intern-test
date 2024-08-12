@@ -1,11 +1,5 @@
 import create from 'zustand';
-
-interface AuthState {
-  isLoggedIn: boolean;
-  accessToken: string | null;
-  login: (token: string) => void;
-  logout: () => void;
-}
+import { AuthState } from '../types';
 
 const useAuthStore = create<AuthState>((set) => ({
   isLoggedIn: !!localStorage.getItem('accessToken'),

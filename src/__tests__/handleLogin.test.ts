@@ -1,10 +1,10 @@
-import { api } from '../api/axios';
+import { userSignAndProfileApi } from '../api/axios';
 
 jest.mock('../api/axios');
 
 const handleLogin = async () => {
   try {
-    const response = await api.login({
+    const response = await userSignAndProfileApi.login({
       id: 'test@test.com',
       password: 'password',
     });
@@ -15,7 +15,7 @@ const handleLogin = async () => {
 };
 
 test('로그인 성공 시 localStorage에 토큰을 저장한다.', async () => {
-  (api.login as jest.Mock).mockResolvedValueOnce({
+  (userSignAndProfileApi.login as jest.Mock).mockResolvedValueOnce({
     data: { accessToken: 'fakeToken' },
   });
 

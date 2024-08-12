@@ -1,11 +1,11 @@
 import axiosTodosInstance from './axios';
 
-export const fetchTodos = async (): Promise<any[]> => {
+export const fetchTodos = async () => {
   const response = await axiosTodosInstance.get('/todos');
   return response.data;
 };
 
-export const fetchTodo = async (id: number): Promise<any> => {
+export const fetchTodo = async (id: number) => {
   const response = await axiosTodosInstance.get(`/todos/${id}`);
   return response.data;
 };

@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchTodos, fetchTodo } from '../api/todoApi';
+import { useFetchTodos } from '../hooks/useFetchTodos';
+import useFetchOneTodo from '../hooks/useFetchOneTodo';
+import { ActiveQueryType } from '../types';
 
 const TodosComponent: React.FC = () => {
-  const [activeQuery, setActiveQuery] = useState<'todos' | 'todo' | null>(null);
+  const [activeQuery, setActiveQuery] = useState<ActiveQueryType>(null);
 
-  const todosQuery = useQuery({
-    queryKey: ['todos'],
-    queryFn: fetchTodos,
-    enabled: activeQuery === 'todos',
-  });
-
-  const todoQuery = useQuery({
-    queryKey: ['todo', 1],
-    queryFn: () => fetchTodo(1),
-    enabled: activeQuery === 'todo',
-  });
+  const todosQuery = useFetchTodos(activeQuery);
+  const oneTodoQuery = useFetchOneTodo(activeQuery);
 
   return (
     <div>
@@ -37,12 +29,13 @@ const TodosComponent: React.FC = () => {
       </button>
 
       {todosQuery.isLoading && <div>모든 할 일 로딩 중...</div>}
-      {todoQuery.isLoading && <div>할 일 1건 로딩 중...</div>}
+      {oneTodoQuery.isLoading && <div>할 일 1건 로딩 중...</div>}
+
       {todosQuery.error && (
         <div>모든 할 일 로딩 에러: {todosQuery.error.message}</div>
       )}
-      {todoQuery.error && (
-        <div>할 일 1건 로딩 에러: {todoQuery.error.message}</div>
+      {oneTodoQuery.error && (
+        <div>할 일 1건 로딩 에러: {oneTodoQuery.error.message}</div>
       )}
 
       {activeQuery === 'todos' && todosQuery.data && (
@@ -56,10 +49,10 @@ const TodosComponent: React.FC = () => {
         </div>
       )}
 
-      {activeQuery === 'todo' && todoQuery.data && (
+      {activeQuery === 'todo' && oneTodoQuery.data && (
         <div className='my-8'>
           <h2 className='font-semibold text-2xl mb-2'>할 일 1건</h2>
-          <p className='mb-8'>{todoQuery.data.title}</p>
+          <p className='mb-8'>{oneTodoQuery.data.title}</p>
         </div>
       )}
     </div>
