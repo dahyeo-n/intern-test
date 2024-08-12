@@ -4,7 +4,7 @@ import SignUp from '../pages/SignUp';
 import My from '../pages/My';
 import NavBar from '../components/common/NavBar';
 import TodosComponent from '../components/TodosComponent';
-import useAuthStore from '../zustand/useAuthStore';
+import useAuthStore from '../store/useAuthStore';
 
 const Router = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);

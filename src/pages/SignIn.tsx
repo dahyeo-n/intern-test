@@ -1,25 +1,10 @@
 import React, { useState } from 'react';
-import { api } from '../api/axios';
-import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../zustand/useAuthStore';
+import { useHandleLogin } from '../hooks/useHandleLogin';
 
 const SignIn: React.FC = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-  const { login } = useAuthStore();
-
-  const handleLogin = async () => {
-    try {
-      const response = await api.login({ id, password });
-      // Zustand 스토어를 사용하여 로그인 상태 업데이트
-      login(response.data.accessToken);
-
-      navigate('/my');
-    } catch (error) {
-      alert('로그인에 실패하였습니다. 이메일과 비밀번호를 다시 확인해주세요.');
-    }
-  };
+  const handleLogin = useHandleLogin();
 
   return (
     <div className='px-10'>
@@ -42,7 +27,7 @@ const SignIn: React.FC = () => {
         />
       </div>
       <button
-        onClick={handleLogin}
+        onClick={() => handleLogin({ id, password })}
         className='bg-blue-500 text-white px-4 py-2 mt-2 rounded'
       >
         로그인하기

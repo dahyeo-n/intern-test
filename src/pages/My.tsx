@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { api, useUpdateProfileMutation } from '../api/axios';
-import useAuthStore from '../zustand/useAuthStore';
+import { userSignAndProfileApi } from '../api/axios';
+import useAuthStore from '../store/useAuthStore';
+import { useUpdateProfileMutation } from '../hooks/useUpdateProfileMutation';
 
 interface ProfileData {
   nickname: string;
@@ -13,7 +14,8 @@ const My: React.FC = () => {
 
   const { data, isLoading, isError } = useQuery<ProfileData>({
     queryKey: ['profile', accessToken],
-    queryFn: () => api.fetchProfile(accessToken!).then((res) => res.data),
+    queryFn: () =>
+      userSignAndProfileApi.fetchProfile(accessToken!).then((res) => res.data),
     enabled: !!accessToken, // accessToken이 있을 때만 쿼리 실행
   });
 
