@@ -33,3 +33,10 @@ export interface AuthState {
   login: (token: string) => void;
   logout: () => void;
 }
+
+export interface Todo {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
