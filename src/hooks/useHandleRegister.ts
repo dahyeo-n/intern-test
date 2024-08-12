@@ -1,16 +1,11 @@
 import { userSignAndProfileApi } from '../api/axios';
-
-interface Register {
-  id: string;
-  password: string;
-  nickname: string;
-}
+import { RegisterData } from '../types';
 
 export const useHandleRegister = async ({
   id,
   password,
   nickname,
-}: Register) => {
+}: RegisterData) => {
   try {
     const response = await userSignAndProfileApi.register({
       id,

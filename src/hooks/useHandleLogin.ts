@@ -2,16 +2,13 @@ import useAuthStore from '../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { userSignAndProfileApi } from '../api/axios';
 
-interface Login {
-  id: string;
-  password: string;
-}
+import { LoginData } from '../types';
 
 export const useHandleLogin = () => {
   const navigate = useNavigate();
   const { login } = useAuthStore();
 
-  const handleLogin = async ({ id, password }: Login) => {
+  const handleLogin = async ({ id, password }: LoginData) => {
     try {
       const response = await userSignAndProfileApi.login({ id, password });
       login(response.data.accessToken);

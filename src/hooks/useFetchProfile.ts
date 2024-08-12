@@ -1,12 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
 import useAuthStore from '../store/useAuthStore';
+import { useQuery } from '@tanstack/react-query';
 import { userSignAndProfileApi } from '../api/axios';
-import queryKeys from '../queryKeys';
 
-interface ProfileData {
-  nickname: string;
-  avatar?: string;
-}
+import queryKeys from '../queryKeys';
+import { ProfileData } from '../types';
 
 const useFetchProfile = () => {
   const accessToken = useAuthStore((state) => state.accessToken);

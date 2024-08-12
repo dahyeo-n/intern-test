@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useFetchTodos } from '../hooks/useFetchTodos';
 import useFetchOneTodo from '../hooks/useFetchOneTodo';
+import { ActiveQueryType } from '../types';
 
 const TodosComponent: React.FC = () => {
-  const [activeQuery, setActiveQuery] = useState<'todos' | 'todo' | null>(null);
+  const [activeQuery, setActiveQuery] = useState<ActiveQueryType>(null);
 
   const todosQuery = useFetchTodos(activeQuery);
   const oneTodoQuery = useFetchOneTodo(activeQuery);

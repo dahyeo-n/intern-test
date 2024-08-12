@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { LoginData, RegisterData, UpdateProfileData } from '../types';
 
 const axiosTodosInstance = axios.create({
   baseURL: import.meta.env.VITE_TODOS_BASE_URL,
@@ -14,15 +15,11 @@ const axiosUserInstance = axios.create({
 });
 
 export const userSignAndProfileApi = {
-  register: async (data: {
-    id: string;
-    password: string;
-    nickname: string;
-  }) => {
+  register: async (data: RegisterData) => {
     return axiosUserInstance.post('/register', data);
   },
 
-  login: async (data: { id: string; password: string }) => {
+  login: async (data: LoginData) => {
     return axiosUserInstance.post('/login', data);
   },
 
@@ -32,10 +29,7 @@ export const userSignAndProfileApi = {
     });
   },
 
-  updateProfile: async (
-    data: { avatar: File | null; nickname: string },
-    accessToken: string
-  ) => {
+  updateProfile: async (data: UpdateProfileData, accessToken: string) => {
     const formData = new FormData();
 
     if (data.avatar) {
