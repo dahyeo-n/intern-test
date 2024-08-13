@@ -16,6 +16,12 @@ export interface ProfileData {
   avatar?: string;
 }
 
+export interface ProfileStoreState {
+  nickname: string;
+  avatar: string | null;
+  setProfile: (nickname: string, avatar: string | null) => void;
+}
+
 export interface UpdateProfileData {
   nickname: string;
   avatar: File | null;

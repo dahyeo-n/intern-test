@@ -3,9 +3,11 @@ import { userSignAndProfileApi } from '../api/axios';
 
 import queryKeys from '../queryKeys';
 import { UpdateProfileData } from '../types';
+import { useProflieStore } from '../store/useProfileStore';
 
 export const useUpdateProfileMutation = (accessToken: string) => {
   const queryClient = useQueryClient();
+  const setProfile = useProflieStore((state) => state.setProfile);
 
   return useMutation({
     mutationFn: (data: UpdateProfileData) =>
@@ -14,6 +16,8 @@ export const useUpdateProfileMutation = (accessToken: string) => {
         .then((res) => res.data),
 
     onSuccess: (data) => {
+      setProfile(data.nickname, data.avatar || null);
+
       queryClient.invalidateQueries({
         queryKey: [queryKeys.profile, accessToken],
       });
